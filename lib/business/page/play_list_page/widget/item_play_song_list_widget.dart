@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:music/base/pageWidget/common_stateful_widget.dart';
@@ -13,7 +13,8 @@ class ItemPlaySongListWidget extends CommonStatefulWidget {
   Song2 itemData;
   RxString playId;
 
-  ItemPlaySongListWidget(this.itemData, this.playId);
+  ItemPlaySongListWidget(this.itemData, this.playId, {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -42,8 +43,8 @@ class ItemPlaySongListWidgetState extends State<ItemPlaySongListWidget>
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
-          color: ColorStyle.color_white,
-          padding: EdgeInsets.only(left: 30.w, right: 30.w),
+          color: Colors.transparent,
+          padding: EdgeInsets.only(left: 15.w, right: 30.w),
           // color: ColorStyle.color_EA4C43,
           margin: EdgeInsets.only(top: 5.w, bottom: 5.w),
           height: 150.w,

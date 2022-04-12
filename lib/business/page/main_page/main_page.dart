@@ -85,7 +85,7 @@ class MainPage extends BaseStatelessWidget<MainController> {
           GestureDetector(
             child: const Text("data"),
             onTap: () {
-              Get.toNamed(AppRoutes.detailPage);
+              Get.toNamed(AppRoutes.musicDetailPage);
             },
           ),
           const Text("关于"),

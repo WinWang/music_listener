@@ -9,7 +9,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'base/pageWidget/common_stateful_widget.dart';
 import 'business/component/music_component/music_player_component.dart';
-import 'business/music_component/music_player_component.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

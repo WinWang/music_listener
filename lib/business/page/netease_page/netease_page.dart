@@ -27,7 +27,7 @@ class NeteasePage extends BaseStatelessWidget<NeteaseController> {
             child: ItemPlayListWidget(controller.playList[index]),
             onTap: () {
               var id = controller.playList[index].id;
-              Get.toNamed(AppRoutes.detailPage, arguments: id);
+              Get.toNamed(AppRoutes.playListPage, arguments: id);
             },
           );
         },

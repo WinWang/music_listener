@@ -19,11 +19,18 @@ class PlayListPage extends BaseStatelessWidget<PlayListController> {
         slivers: [_createSliverAppBar(), _createSliverList()]);
   }
 
+  // Widget _createMiddleContent(){
+  //   // return Sliver
+  // }
+
   ///顶部滚动AppBar
   Widget _createSliverAppBar() {
     return SliverAppBar(
       elevation: 8.0,
-      title: Text(controller.title.value),
+      title: Text(
+        controller.title.value,
+        style: TextStyle(fontSize: 32.sp),
+      ),
       pinned: true,
       expandedHeight: 500.w,
       flexibleSpace: FlexibleSpaceBar(
@@ -40,21 +47,18 @@ class PlayListPage extends BaseStatelessWidget<PlayListController> {
   Widget _createSliverList() {
     return SliverList(
         delegate: SliverChildBuilderDelegate((context, index) {
-      return GestureDetector(
+      return InkWell(
         child: ItemPlaySongListWidget(
             controller.dataList[index], controller.playId),
         onTap: () async {
           var itemData = controller.dataList[index];
-          await controller.musicPlayerController
-              .setMusicUrl(controller.dataList[index].audioUrl);
-          controller.musicPlayerController.playMusic();
           controller.playId.value = itemData.id;
-          controller.musicPlayerController.musicTitle.value =
-              itemData.name ?? "";
-          controller.musicPlayerController.musicion.value =
-              itemData.al.name ?? "";
-          controller.musicPlayerController.playCoverUrl.value =
-              itemData.al.picUrl ?? "";
+          controller.musicPlayerController.setCurrentMusicInfo(
+              itemData.name ?? "",
+              itemData.al.name ?? "",
+              itemData.al.picUrl ?? "",
+              itemData.audioUrl ?? "",
+              itemData.id);
         },
       );
     }, childCount: controller.dataList.length));

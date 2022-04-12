@@ -1,5 +1,3 @@
-
-
 class CommonConstant {
   ///*************************MethodChannel变量****************************///
 
@@ -21,14 +19,16 @@ class CommonConstant {
 
   ///*************************MethodChannel_方法变量****************************///
 
-///常用字段
- static const UUID = "3e7ee30c6fc0004a773dc33b0597b5732b145c04";
+  ///常用字段
+  static const UUID = "3e7ee30c6fc0004a773dc33b0597b5732b145c04";
 
- static const DEVICE_NUM = "ONEPLUS%20A6000";
+  static const DEVICE_NUM = "ONEPLUS%20A6000";
+}
 
-
-
-
-
-
+class KeyConstant {
+  static const keyMusicTitle = "key_music_title"; //标题key
+  static const keyMusicArt = "key_music_art"; //演唱者key
+  static const keyMusicCover = "key_music_cover"; //封面key
+  static const keyMusicID = "key_music_id"; //歌曲ID
+  static const keyMusicUrl = "key_music_url"; //歌曲Url
 }
