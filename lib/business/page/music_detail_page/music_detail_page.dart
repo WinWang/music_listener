@@ -4,11 +4,15 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music/base/controller/base_controller.dart';
 import 'package:music/base/pageWidget/base_stateless_widget.dart';
 import 'package:music/business/component/music_component/music_player_component.dart';
+import 'package:music/res/colors.dart';
 import 'package:music/res/r.dart';
 import 'package:music/res/style.dart';
+import 'package:music/utils/date_utils.dart';
+import 'package:music/utils/log_utils.dart';
 import 'package:music/widget/base_network_image.dart';
 
 class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
@@ -24,6 +28,11 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
               height: double.infinity,
               fit: BoxFit.fill,
             ),
+            Container(
+              color: ColorStyle.color_E2E3E8_66,
+              width: double.infinity,
+              height: double.infinity,
+            ),
             BackdropFilter(
               // 过滤器
               filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
@@ -38,6 +47,7 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
                 ),
                 _createTitleView(),
                 _createMiddlerContent(),
+                _createBottomSeekView(),
                 _createBottomControlView(),
                 Box.hBox30
               ],
@@ -55,10 +65,15 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
         child: Row(
           children: [
             GestureDetector(
-              child: Image.asset(
-                R.white_arrow_down_icon,
-                height: 65.w,
+              child: Container(
+                alignment: Alignment.center,
+                child: Image.asset(
+                  R.white_arrow_down_icon,
+                  height: 45.w,
+                  width: 45.w,
+                ),
                 width: 65.w,
+                height: 65.w,
               ),
               onTap: () {
                 Get.back();
@@ -73,6 +88,22 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(color: Colors.white, fontSize: 32.sp),
             )),
+
+            GestureDetector(
+              child: Container(
+                alignment: Alignment.center,
+                child: Image.asset(
+                  R.icon_white_share,
+                  height: 45.w,
+                  width: 45.w,
+                ),
+                width: 65.w,
+                height: 65.w,
+              ),
+              onTap: () {
+                Get.back();
+              },
+            ),
 
             // Icon(icon)
           ],
@@ -98,7 +129,7 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
                   ..addStatusListener((status) {
                     if (controller.musicController.playingStatus.value &&
                         status == AnimationStatus.completed) {
-                      controller.rotateController.reset();
+                      controller.rotateController.repeat();
                       controller.rotateController.forward();
                     }
                   }),
@@ -115,6 +146,7 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
                         controller.musicController.playCoverUrl.value,
                         width: 300.w,
                         height: 300.w,
+                        fit: BoxFit.cover,
                       ),
                     )
                   ],
@@ -177,12 +209,15 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
               height: 90.w,
             ),
             onTap: () async {
-              await controller.musicController.playMusic();
-              if (!controller.musicController.playingStatus.value) {
+              if (controller.musicController.playingStatus.value) {
+                LogD("msg》》》》》》暂停");
                 controller.rotateController.stop();
               } else {
+                LogD("msg》》》》》》播放");
+                controller.rotateController.repeat();
                 controller.rotateController.forward();
               }
+              await controller.musicController.playMusic();
             },
           )),
           Expanded(
@@ -211,10 +246,41 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
 
   /// 构建地步控制栏--拖动条
   Widget _createBottomSeekView() {
-    return SizedBox(
+    return Container(
+      padding: EdgeInsets.only(left: 32.w, right: 32.w),
       height: 100.w,
       child: Row(
-        children: [],
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: 80.w,
+            child: Text(
+              TimeUtils.durationTransform(
+                  controller.musicController.currentPosition.value),
+              style: TextStyle(fontSize: 26.sp, color: ColorStyle.color_white),
+            ),
+          ),
+          Expanded(
+              child: Slider(
+            thumbColor: ColorStyle.color_white,
+            inactiveColor: ColorStyle.color_white,
+            activeColor: ColorStyle.color_white,
+            value: controller.musicController.currentPosition.toDouble(),
+            max: controller.musicController.audioLenght.toDouble(),
+            onChanged: (value) {
+              controller.musicController.setSeekPosition(value);
+            },
+          )),
+          Container(
+            alignment: Alignment.center,
+            width: 80.w,
+            child: Text(
+              TimeUtils.durationTransform(
+                  controller.musicController.audioLenght.value),
+              style: TextStyle(fontSize: 26.sp, color: ColorStyle.color_white),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -240,8 +306,24 @@ class MusicDetailController extends BaseController
     super.onReady();
     musicController.showMusicPlayer.value = false;
     if (musicController.playingStatus.value) {
+      rotateController.repeat();
       rotateController.forward();
     }
+    musicController.musicService.audioPlayer.playerStateStream.listen((event) {
+      switch (event.processingState) {
+        case ProcessingState.completed:
+          rotateController.stop();
+          break;
+        case ProcessingState.idle:
+          break;
+        case ProcessingState.loading:
+          break;
+        case ProcessingState.buffering:
+          break;
+        case ProcessingState.ready:
+          break;
+      }
+    });
   }
 
   @override

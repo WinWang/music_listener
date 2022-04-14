@@ -6,8 +6,11 @@ import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music/base/component/base_component.dart';
 import 'package:music/base/controller/base_controller.dart';
+import 'package:music/business/page/netease_page/model/bean.dart';
 import 'package:music/business/service/music_servie.dart';
 import 'package:music/constant/common_constant.dart';
+import 'package:music/http/apiservice/api_service.dart';
+import 'package:music/http/interceptor/netease_handler.dart';
 import 'package:music/res/colors.dart';
 import 'package:music/res/r.dart';
 import 'package:music/res/style.dart';
@@ -15,6 +18,7 @@ import 'package:music/route/routes.dart';
 import 'package:music/utils/log_utils.dart';
 import 'package:music/utils/sp_utils.dart';
 import 'package:music/widget/base_network_image.dart';
+import 'package:music/widget/progress_paint.dart';
 
 ///全局音乐播放器控制按钮
 // ignore: must_be_immutable
@@ -31,15 +35,24 @@ class MusicPlayer extends BaseComponent<MusicPlayerController> {
       child: AnimatedContainer(
         color: ColorStyle.color_white,
         height: controller.showMusicPlayer.value ? 120.w : 0,
-        duration: const Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 150),
         child: Stack(
           children: [
+            Positioned(
+              child: CustomPaint(
+                size: Size(630.w, 3.w),
+                painter: ProgressPaint(controller.currentPosition.value,
+                    controller.audioLenght.value),
+              ),
+              left: 120.w,
+            ),
             Row(
               children: [
                 BaseNetworkImage(
                   controller.playCoverUrl.value,
                   height: 120.w,
                   width: 120.w,
+                  fit: BoxFit.cover,
                 ),
                 Expanded(
                     child: Container(
@@ -87,7 +100,7 @@ class MusicPlayer extends BaseComponent<MusicPlayerController> {
                   },
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -103,12 +116,12 @@ class MusicPlayer extends BaseComponent<MusicPlayerController> {
   }
 }
 
-class MusicPlayerController extends BaseController {
+class MusicPlayerController extends BaseController<ApiService> {
   ///图片封面
-  RxString playCoverUrl =
-      "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic.51yuansu.com%2Fpic3%2Fcover%2F03%2F19%2F89%2F5b642bed6d88c_610.jpg&refer=http%3A%2F%2Fpic.51yuansu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1652083866&t=bcf36906324b5a5627ee9d5da3dee95d"
-          .obs;
-  final musicService = Get.find<MusicService>();
+  RxString playCoverUrl = "".obs;
+
+  ///音乐播放器服务
+  var musicService = Get.find<MusicService>();
 
   ///音乐名称
   RxString musicTitle = "".obs;
@@ -129,6 +142,12 @@ class MusicPlayerController extends BaseController {
 
   ///音乐播放链接
   String musicUrl = "";
+
+  ///音频时长
+  RxInt audioLenght = 0.obs;
+
+  ///音频当前播放位置
+  RxInt currentPosition = 0.obs;
 
   @override
   void loadNet() {}
@@ -167,24 +186,33 @@ class MusicPlayerController extends BaseController {
       // LogD("歌曲时间>>>>>>>>>>>>>>>>>$inSeconds");
     });
     musicService.audioPlayer.durationStream.listen((event) {
-      // var inSeconds = event?.inSeconds;
+      audioLenght.value = event?.inSeconds ?? 0;
       // LogD("歌曲时间>>>>>>>>>>>>>>>>>$inSeconds");
     });
 
     ///歌曲进度监听
     musicService.audioPlayer.positionStream.listen((event) {
-      // var inSeconds = event.inSeconds;
+      currentPosition.value = event.inSeconds;
       // LogD("歌曲时间>>>>>>>>>>>>>>>>>$inSeconds");
     });
     _initMusicPlayer();
+    getSongUrl();
   }
 
-  Future setMusicUrl(String? url) async {
+  Future setMusicUrl(String? url, {bool isInit = false}) async {
     if (url != null && url.isNotEmpty) {
       await musicService.audioPlayer.setUrl(url);
-      await musicService.audioPlayer.stop();
+      if (isInit) {
+        await musicService.audioPlayer.stop();
+      }
       // await musicService.audioPlayer.dispose();
     }
+  }
+
+  ///设置当前音频进度
+  void setSeekPosition(double? seekPosition) {
+    musicService.audioPlayer
+        .seek(Duration(seconds: seekPosition?.toInt() ?? 0));
   }
 
   ///音乐播放逻辑
@@ -202,6 +230,11 @@ class MusicPlayerController extends BaseController {
       {bool needSave = true, bool autoPlay = true}) async {
     //设置界面数据
     setMusicInfo(title, artist, coverUrl, audioTrackId, audioUrl);
+    if (musicUrl.isEmpty) {
+      showMusicPlayer.value = false;
+    } else {
+      showMusicPlayer.value = true;
+    }
     //缓存播放数据
     if (needSave) {
       SPUtils.instance.putString(KeyConstant.keyMusicTitle, title ?? "");
@@ -211,7 +244,7 @@ class MusicPlayerController extends BaseController {
       SPUtils.instance.putString(KeyConstant.keyMusicUrl, musicUrl);
     }
     //设置播放器链接并播放
-    await setMusicUrl(musicUrl);
+    await setMusicUrl(musicUrl, isInit: needSave);
     if (autoPlay) {
       playMusic();
     }
@@ -236,5 +269,24 @@ class MusicPlayerController extends BaseController {
     LogD("初始化音频链接>>>>>>>>>$musicUrl");
     setCurrentMusicInfo(title, artist, coverUrl, musicUrl, playId,
         needSave: false, autoPlay: false);
+  }
+
+  ///获取音乐的播放链接
+  void getSongUrl() {
+    LogWTF("网络更新播放链接1>>>>>>>>>$musicUrl");
+    if (playId.isNotEmpty) {
+      httpRequest<SongUrlListWrap>(
+          api.getSongUrlV1("[$playId]", options: joinOptions()), (value) {
+        musicUrl = value.data?[0].url ?? "";
+        setMusicUrl(musicUrl);
+        LogWTF("网络更新播放链接2>>>>>>>>>$musicUrl");
+      });
+    }
+  }
+
+  @override
+  void onClose() {
+    musicService.audioPlayer.dispose();
+    super.onClose();
   }
 }

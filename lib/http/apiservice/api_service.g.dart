@@ -145,6 +145,34 @@ class _ApiService implements ApiService {
     return value;
   }
 
+  @override
+  Future<SearchSongWrapX> searchSong(keyword,
+      {type = 1, limit = 30, offset = 0, options}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = {
+      's': keyword,
+      'type': type,
+      'limit': limit,
+      'offset': offset
+    };
+    final newOptions = newRequestOptions(options);
+    newOptions.extra.addAll(_extra);
+    newOptions.headers.addAll(_dio.options.headers);
+    newOptions.headers.addAll(_headers);
+    final _result = await _dio.fetch<Map<String, dynamic>>(newOptions.copyWith(
+        method: 'POST',
+        contentType: 'application/x-www-form-urlencoded',
+        baseUrl: baseUrl ?? _dio.options.baseUrl,
+        queryParameters: queryParameters,
+        path: '/weapi/search/get')
+      ..data = _data);
+    final value = SearchSongWrapX.fromJson(_result.data!);
+    return value;
+  }
+
   RequestOptions newRequestOptions(Options? options) {
     if (options is RequestOptions) {
       return options as RequestOptions;

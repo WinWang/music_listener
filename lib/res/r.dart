@@ -11,4 +11,7 @@ class R {
   static const String icon_white_pause = "assets/images/icon_white_pause.png";
   static const String icon_white_once = "assets/images/icon_white_once.png";
   static const String icon_white_more = "assets/images/icon_white_more.png";
+  static const String icon_white_share = "assets/images/icon_white_share.png";
+  static const String icon_white_night = "assets/images/icon_white_night.png";
+  static const String icon_white_music = "assets/images/icon_white_music.png";
 }

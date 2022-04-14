@@ -814,6 +814,10 @@ MultiPlayListWrap _$MultiPlayListWrapFromJson(Map<String, dynamic> json) =>
       ..code = dynamicToInt(json['code'])
       ..message = json['message'] as String?
       ..msg = json['msg'] as String?
+      ..more = json['more'] as bool?
+      ..hasMore = json['hasMore'] as bool?
+      ..count = json['count'] as int?
+      ..total = json['total'] as int?
       ..playlists = (json['playlists'] as List<dynamic>?)
           ?.map((e) => Play.fromJson(e as Map<String, dynamic>))
           .toList();
@@ -823,6 +827,10 @@ Map<String, dynamic> _$MultiPlayListWrapToJson(MultiPlayListWrap instance) =>
       'code': instance.code,
       'message': instance.message,
       'msg': instance.msg,
+      'more': instance.more,
+      'hasMore': instance.hasMore,
+      'count': instance.count,
+      'total': instance.total,
       'playlists': instance.playlists,
     };
 

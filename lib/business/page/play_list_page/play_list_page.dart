@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,6 +10,7 @@ import 'package:music/business/page/netease_page/model/bean.dart';
 import 'package:music/business/page/play_list_page/widget/item_play_song_list_widget.dart';
 import 'package:music/http/apiservice/api_service.dart';
 import 'package:music/http/interceptor/netease_handler.dart';
+import 'package:music/res/colors.dart';
 import 'package:music/widget/base_network_image.dart';
 
 class PlayListPage extends BaseStatelessWidget<PlayListController> {
@@ -19,9 +22,6 @@ class PlayListPage extends BaseStatelessWidget<PlayListController> {
         slivers: [_createSliverAppBar(), _createSliverList()]);
   }
 
-  // Widget _createMiddleContent(){
-  //   // return Sliver
-  // }
 
   ///顶部滚动AppBar
   Widget _createSliverAppBar() {
@@ -34,10 +34,31 @@ class PlayListPage extends BaseStatelessWidget<PlayListController> {
       pinned: true,
       expandedHeight: 500.w,
       flexibleSpace: FlexibleSpaceBar(
-        background: BaseNetworkImage(
-          controller.topCover.value,
-          width: double.infinity,
-          fit: BoxFit.cover,
+        background: Stack(
+          children: [
+            BaseNetworkImage(
+              controller.topCover.value,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+            BackdropFilter(
+              // 过滤器
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              //必须设置一个空容器
+              child: Container(),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 40.w, right: 40.w),
+              margin: EdgeInsets.only(top: 200.w),
+              child: Text(
+                controller.desc.value,
+                style:
+                    TextStyle(color: ColorStyle.color_white, fontSize: 26.sp),
+                maxLines: 10,
+                overflow: TextOverflow.ellipsis,
+              ),
+            )
+          ],
         ),
       ),
     );

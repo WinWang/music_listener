@@ -263,9 +263,7 @@ Uri joinUri(String path) {
 }
 
 Future<List<Cookie>> loadCookies({Uri? host}) async {
-  if (host == null) {
-    host = Uri.parse(HOST);
-  }
+  host ??= Uri.parse(HOST);
   return (NeteaseMusicApi.cookieManager.cookieJar).loadForRequest(host);
 }
 

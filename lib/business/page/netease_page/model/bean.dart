@@ -647,7 +647,7 @@ class PlayTrackId {
 }
 
 @JsonSerializable()
-class MultiPlayListWrap extends ServerStatusBean {
+class MultiPlayListWrap extends ServerStatusListBean {
   List<Play>? playlists;
 
   MultiPlayListWrap();

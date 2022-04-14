@@ -1,4 +1,3 @@
-
 // function getParameterByName(name, url) {
 //   if (!url) url = window.location.href;
 //   name = name.replace(/[\[\]]/g, '\\$&'); // eslint-disable-line no-useless-escape
@@ -10,14 +9,10 @@
 //   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 // }
 
-
-class MusicUtil{
-  
-  void getParameterByName(String name,String url){
+class MusicUtil {
+  void getParameterByName(String name, String url) {
     name = name.replaceAll("/[[]]/g", "\\&");
     var regExp = RegExp("[?&]${name}(=([^&#]*)|&|#|)");
     var results = regExp.stringMatch(url);
-
   }
-  
 }

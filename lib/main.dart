@@ -19,7 +19,7 @@ void main() async {
 ///初始化SDK
 Future<void> initSDK() async {
   // SharedPreferences.setMockInitialValues({});
-  NeteaseMusicApi.init(debug: false);
+  await NeteaseMusicApi.init(debug: true);
   await Injection().init();
 }
 
@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
     return RefreshConfiguration(
       footerTriggerDistance: 15,
       dragSpeedRatio: 0.91,
-      headerBuilder: () => const MaterialClassicHeader(),
+      headerBuilder: () => const ClassicHeader(),
       footerBuilder: () => const ClassicFooter(),
       enableLoadingWhenNoData: false,
       enableRefreshVibrate: false,

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:music/business/page/netease_page/model/bean.dart';
+import 'package:music/business/page/search_page/model/bean.dart';
 import 'package:music/constant/http_url.dart';
 import 'package:retrofit/dio.dart';
 import 'package:retrofit/http.dart';
@@ -65,6 +66,18 @@ abstract class ApiService {
     @Field("ids") String ids, {
     @Field("level") String level = "standard",
     @Field("encodeType") String encodeType = "aac",
+    @DioOptions() Options? options,
+  });
+
+  // var params = {'s': keyword, 'type': 1, 'limit': limit, 'offset': offset};
+  ///搜索API
+  @FormUrlEncoded()
+  @POST("/weapi/search/get")
+  Future<SearchSongWrapX> searchSong(
+    @Field("s") String keyword, {
+    @Field("type") int type = 1,
+    @Field("limit") int limit = 30,
+    @Field("offset") int offset = 0,
     @DioOptions() Options? options,
   });
 }
