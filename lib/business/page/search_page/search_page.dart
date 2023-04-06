@@ -96,7 +96,7 @@ class SearchController extends BaseController<ApiService> {
   @override
   void onReady() {
     super.onReady();
-    playId.value = musicPlayerController.playId;
+    playId.value = musicPlayerController.playId.value;
     debounceWorker = debounce<String>(inputValue, (value) {
       if (value.isNotEmpty) {
         KeyboardUtils.hideKeyboard(Get.context);

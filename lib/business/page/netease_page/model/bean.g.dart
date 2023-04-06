@@ -248,7 +248,8 @@ MyRecord _$MyRecordFromJson(Map<String, dynamic> json) => MyRecord()
   ..picUrl = json['picUrl'] as String?
   ..name = json['name'] as String?
   ..al_name = json['al_name'] as String?
-  ..time = json['time'] as String?;
+  ..time = json['time'] as String?
+  ..audioUrl = json['audioUrl'] as String?;
 
 Map<String, dynamic> _$MyRecordToJson(MyRecord instance) => <String, dynamic>{
       'id': instance.id,
@@ -256,6 +257,7 @@ Map<String, dynamic> _$MyRecordToJson(MyRecord instance) => <String, dynamic>{
       'name': instance.name,
       'al_name': instance.al_name,
       'time': instance.time,
+      'audioUrl': instance.audioUrl,
     };
 
 SongDetailWrap _$SongDetailWrapFromJson(Map<String, dynamic> json) =>

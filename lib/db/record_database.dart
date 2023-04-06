@@ -15,9 +15,10 @@ const String id = 'id';
 const String picUrl = 'picUrl';
 const String albumName = 'al_name';
 const String name = 'name';
+const String audioUrl = "audioUrl";
 const String time = 'time';
 
-const List<String> values = [id, picUrl, albumName, name, time];
+const List<String> values = [id, picUrl, albumName, name, audioUrl, time];
 
 class RecordDatabase {
   static final RecordDatabase instance = RecordDatabase._init();
@@ -45,6 +46,7 @@ CREATE TABLE $tableRecord (
   $picUrl $textType,
   $name $textType,
   $albumName $textType,
+  $audioUrl $textType,
   $time $textType
   )
 ''');

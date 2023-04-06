@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:music/base/component/base_component.dart';
 import 'package:music/base/controller/base_controller.dart';
+import 'package:music/business/component/music_component/music_player_component.dart';
 import 'package:music/db/playlist_database.dart';
 
 import '../../netease_page/model/bean.dart';
@@ -22,13 +23,11 @@ class PlayListDialog extends BaseComponent<DetailPlayListController> {
               itemBuilder: (BuildContext context, int index) {
                 return Material(
                     child: InkWell(
-                  child: ItemPlayingListWidget(controller.dataList[index], "".obs),
+                  child: ItemPlayingListWidget(controller.dataList[index], controller.musicPlayerController.playId),
                   onTap: () async {
                     var itemData = controller.dataList[index];
-                    // controller.playId.value = itemData.id;
-                    // controller.musicPlayerController.setCurrentMusicInfo(itemData.name ?? "", itemData.al.name ?? "",
-                    //     itemData.al.picUrl ?? "", itemData.audioUrl ?? "", itemData.id);
-                    // controller.savePlayRecord(itemData);
+                    controller.musicPlayerController.setCurrentMusicInfo(itemData.name ?? "", itemData.al.name ?? "",
+                        itemData.al.picUrl ?? "", itemData.audioUrl ?? "", itemData.id);
                   },
                 ));
               },
@@ -54,6 +53,8 @@ class PlayListDialog extends BaseComponent<DetailPlayListController> {
 }
 
 class DetailPlayListController extends BaseController {
+  var musicPlayerController = Get.find<MusicPlayerController>();
+
   RxList dataList = <MyRecord>[].obs;
 
   @override

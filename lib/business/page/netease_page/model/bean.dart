@@ -220,6 +220,8 @@ class MyRecord {
 
   String? time;
 
+  String? audioUrl;
+
   MyRecord();
 
   factory MyRecord.fromJson(Map<String, dynamic> json) =>

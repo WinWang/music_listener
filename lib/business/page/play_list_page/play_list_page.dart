@@ -69,7 +69,7 @@ class PlayListPage extends BaseStatelessWidget<PlayListController> {
     return SliverList(
         delegate: SliverChildBuilderDelegate((context, index) {
       return InkWell(
-        child: ItemPlaySongListWidget(controller.dataList[index], controller.playId),
+        child: ItemPlaySongListWidget(controller.dataList[index], controller.musicPlayerController.playId),
         onTap: () async {
           var itemData = controller.dataList[index];
           controller.playId.value = itemData.id;
@@ -144,13 +144,14 @@ class PlayListController extends BaseController<ApiService> {
   }
 
   Future<void> savePlayRecord(Song2 item) async {
+    LogD("播放链接>>>>>>${item.audioUrl}");
     var myRecord = MyRecord();
     myRecord.name = item.name ?? "";
     myRecord.al_name = item.al.name ?? "";
     myRecord.picUrl = item.al.picUrl ?? "";
     myRecord.id = item.id;
+    myRecord.audioUrl = item.audioUrl ?? "";
     myRecord.time = DateTime.now().millisecondsSinceEpoch.toString();
-    LogD(">>>>>>${myRecord.time}");
     RecordDatabase.instance.create(myRecord);
     eventBus.fire(myRecord);
     //存储播放列表
@@ -164,6 +165,7 @@ class PlayListController extends BaseController<ApiService> {
       myRecord.name = element.name ?? "";
       myRecord.al_name = element.al.name ?? "";
       myRecord.picUrl = element.al.picUrl ?? "";
+      myRecord.audioUrl = element.audioUrl ?? "";
       myRecord.id = element.id;
       myRecord.time = DateTime.now().millisecondsSinceEpoch.toString();
       PlayListDatabase.instance.create(myRecord);
@@ -178,8 +180,8 @@ class PlayListController extends BaseController<ApiService> {
   @override
   void onClose() {
     super.onClose();
-    PlayListDatabase.instance.close();
-    RecordDatabase.instance.close();
+    // PlayListDatabase.instance.close();
+    // RecordDatabase.instance.close();
   }
 }
 

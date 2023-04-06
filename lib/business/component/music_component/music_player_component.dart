@@ -136,7 +136,7 @@ class MusicPlayerController extends BaseController<ApiService> {
   RxBool showMusicPlayer = true.obs;
 
   ///播放音乐ID
-  String playId = "";
+  RxString playId = "".obs;
 
   RxBool playingStatus = false.obs;
 
@@ -255,7 +255,7 @@ class MusicPlayerController extends BaseController<ApiService> {
     musicTitle.value = title ?? "";
     musicion.value = artist ?? "";
     playCoverUrl.value = coverUrl ?? "";
-    playId = audioTrackId ?? "";
+    playId.value = audioTrackId ?? "";
     musicUrl = audioUrl ?? "";
   }
 

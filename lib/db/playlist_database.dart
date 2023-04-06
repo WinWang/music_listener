@@ -18,8 +18,9 @@ const String picUrl = 'picUrl';
 const String albumName = 'al_name';
 const String name = 'name';
 const String time = 'time';
+const String audioUrl = "audioUrl";
 
-const List<String> values = [id, picUrl, albumName, name, time];
+const List<String> values = [id, picUrl, albumName, name, audioUrl, time];
 
 class PlayListDatabase {
   static final PlayListDatabase instance = PlayListDatabase._init();
@@ -46,6 +47,7 @@ CREATE TABLE $tableRecord (
   $picUrl $textType,
   $name $textType,
   $albumName $textType,
+  $audioUrl $textType,
   $time $textType
   )
 ''');
