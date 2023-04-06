@@ -31,5 +31,6 @@ abstract class BaseComponent<T extends BaseController> extends GetView<T> {
   ///showSuccess展示成功的布局
   Widget buildContent(BuildContext context);
 
+  ///是否开启loadSir加载
   bool useLoadSir() => true;
 }

@@ -11,7 +11,7 @@ class ErrorInterceptor extends Interceptor {
     AppException appException = AppException.create(err);
     // 错误提示
     LogE('DioError===: ${appException.toString()}');
-    err.error = appException;
-    super.onError(err, handler);
+    var newError = err.copyWith(error: appException);
+    super.onError(newError, handler);
   }
 }

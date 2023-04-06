@@ -8,9 +8,12 @@ import 'package:music/base/pageWidget/base_stateless_widget.dart';
 import 'package:music/business/component/music_component/music_player_component.dart';
 import 'package:music/business/page/netease_page/model/bean.dart';
 import 'package:music/business/page/play_list_page/widget/item_play_song_list_widget.dart';
+import 'package:music/db/playlist_database.dart';
+import 'package:music/db/record_database.dart';
 import 'package:music/http/apiservice/api_service.dart';
 import 'package:music/http/interceptor/netease_handler.dart';
 import 'package:music/res/colors.dart';
+import 'package:music/utils/log_utils.dart';
 import 'package:music/widget/base_network_image.dart';
 
 class PlayListPage extends BaseStatelessWidget<PlayListController> {
@@ -18,10 +21,8 @@ class PlayListPage extends BaseStatelessWidget<PlayListController> {
 
   @override
   Widget buildContent(BuildContext context) {
-    return CustomScrollView(
-        slivers: [_createSliverAppBar(), _createSliverList()]);
+    return CustomScrollView(slivers: [_createSliverAppBar(), _createSliverList()]);
   }
-
 
   ///顶部滚动AppBar
   Widget _createSliverAppBar() {
@@ -52,8 +53,7 @@ class PlayListPage extends BaseStatelessWidget<PlayListController> {
               margin: EdgeInsets.only(top: 200.w),
               child: Text(
                 controller.desc.value,
-                style:
-                    TextStyle(color: ColorStyle.color_white, fontSize: 26.sp),
+                style: TextStyle(color: ColorStyle.color_white, fontSize: 26.sp),
                 maxLines: 10,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -69,17 +69,13 @@ class PlayListPage extends BaseStatelessWidget<PlayListController> {
     return SliverList(
         delegate: SliverChildBuilderDelegate((context, index) {
       return InkWell(
-        child: ItemPlaySongListWidget(
-            controller.dataList[index], controller.playId),
+        child: ItemPlaySongListWidget(controller.dataList[index], controller.playId),
         onTap: () async {
           var itemData = controller.dataList[index];
           controller.playId.value = itemData.id;
-          controller.musicPlayerController.setCurrentMusicInfo(
-              itemData.name ?? "",
-              itemData.al.name ?? "",
-              itemData.al.picUrl ?? "",
-              itemData.audioUrl ?? "",
-              itemData.id);
+          controller.musicPlayerController.setCurrentMusicInfo(itemData.name ?? "", itemData.al.name ?? "",
+              itemData.al.picUrl ?? "", itemData.audioUrl ?? "", itemData.id);
+          controller.savePlayRecord(itemData);
         },
       );
     }, childCount: controller.dataList.length));
@@ -112,8 +108,7 @@ class PlayListController extends BaseController<ApiService> {
 
   ///获取专辑列表
   void getMusicList() {
-    httpRequest<SinglePlayListWrap>(api.getPlayList(id, options: joinOptions()),
-        (value) {
+    httpRequest<SinglePlayListWrap>(api.getPlayList(id, options: joinOptions()), (value) {
       var trackIds = value.playlist?.trackIds?.map((i) => i.id);
       var c = '[' + trackIds!.map((id) => '{"id":' + id + '}').join(',') + ']';
       var ids = '[' + trackIds.join(',') + ']';
@@ -126,8 +121,7 @@ class PlayListController extends BaseController<ApiService> {
 
   ///获取歌曲详情列表
   void getSong(String c, String ids) {
-    httpRequest<SongDetailWrap>(api.getSongList(c, ids, options: joinOptions()),
-        (value) {
+    httpRequest<SongDetailWrap>(api.getSongList(c, ids, options: joinOptions()), (value) {
       dataList.value = value.songs ?? [];
       getSongUrl(ids, value.songs ?? []);
     });
@@ -135,8 +129,7 @@ class PlayListController extends BaseController<ApiService> {
 
   ///获取音乐的播放链接
   void getSongUrl(String ids, List<Song2> songList) {
-    httpRequest<SongUrlListWrap>(api.getSongUrlV1(ids, options: joinOptions()),
-        (value) {
+    httpRequest<SongUrlListWrap>(api.getSongUrlV1(ids, options: joinOptions()), (value) {
       if (songList.isNotEmpty) {
         value.data?.forEach((elementUrl) {
           for (var elementSong in songList) {
@@ -150,9 +143,43 @@ class PlayListController extends BaseController<ApiService> {
     });
   }
 
+  Future<void> savePlayRecord(Song2 item) async {
+    var myRecord = MyRecord();
+    myRecord.name = item.name ?? "";
+    myRecord.al_name = item.al.name ?? "";
+    myRecord.picUrl = item.al.picUrl ?? "";
+    myRecord.id = item.id;
+    myRecord.time = DateTime.now().millisecondsSinceEpoch.toString();
+    LogD(">>>>>>${myRecord.time}");
+    RecordDatabase.instance.create(myRecord);
+    eventBus.fire(myRecord);
+    //存储播放列表
+    savePlayList();
+  }
+
+  Future<void> savePlayList() async {
+    PlayListDatabase.instance.clearDatabase();
+    for (var element in dataList) {
+      var myRecord = MyRecord();
+      myRecord.name = element.name ?? "";
+      myRecord.al_name = element.al.name ?? "";
+      myRecord.picUrl = element.al.picUrl ?? "";
+      myRecord.id = element.id;
+      myRecord.time = DateTime.now().millisecondsSinceEpoch.toString();
+      PlayListDatabase.instance.create(myRecord);
+    }
+  }
+
+  @override
+  bool useEventBus() {
+    return true;
+  }
+
   @override
   void onClose() {
     super.onClose();
+    PlayListDatabase.instance.close();
+    RecordDatabase.instance.close();
   }
 }
 

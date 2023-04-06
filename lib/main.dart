@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
       },
       child: ScreenUtilInit(
           designSize: const Size(750, 1334),
-          builder: () => GetMaterialApp(
+          builder: (context,__) => GetMaterialApp(
                 getPages: AppRoutes.routerPages,
                 defaultTransition: Transition.rightToLeft,
                 transitionDuration: const Duration(milliseconds: 150),

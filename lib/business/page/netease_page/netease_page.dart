@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:keframe/size_cache_widget.dart';
+import 'package:keframe/keframe.dart';
 import 'package:music/base/controller/base_refresh_controller.dart';
 import 'package:music/base/pageWidget/base_stateless_widget.dart';
 import 'package:music/business/page/netease_page/widget/item_play_list_widget.dart';

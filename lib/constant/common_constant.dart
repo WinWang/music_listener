@@ -31,4 +31,5 @@ class KeyConstant {
   static const keyMusicCover = "key_music_cover"; //封面key
   static const keyMusicID = "key_music_id"; //歌曲ID
   static const keyMusicUrl = "key_music_url"; //歌曲Url
+  static const keyPlayList = "key_play_list"; //歌曲播放列表
 }

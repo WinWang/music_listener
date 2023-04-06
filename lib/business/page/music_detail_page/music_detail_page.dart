@@ -8,6 +8,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:music/base/controller/base_controller.dart';
 import 'package:music/base/pageWidget/base_stateless_widget.dart';
 import 'package:music/business/component/music_component/music_player_component.dart';
+import 'package:music/business/page/music_detail_page/widget/play_list_dialog.dart';
 import 'package:music/res/colors.dart';
 import 'package:music/res/r.dart';
 import 'package:music/res/style.dart';
@@ -127,8 +128,7 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
               child: RotationTransition(
                 turns: controller.rotateController
                   ..addStatusListener((status) {
-                    if (controller.musicController.playingStatus.value &&
-                        status == AnimationStatus.completed) {
+                    if (controller.musicController.playingStatus.value && status == AnimationStatus.completed) {
                       controller.rotateController.repeat();
                       controller.rotateController.forward();
                     }
@@ -157,9 +157,7 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
               alignment: Alignment.topCenter,
               margin: EdgeInsets.only(left: 150.w),
               child: Transform.rotate(
-                angle: pi /
-                    180 *
-                    (controller.musicController.playingStatus.value ? 0 : -20),
+                angle: pi / 180 * (controller.musicController.playingStatus.value ? 0 : -20),
                 origin: Offset(-76.w, -141.w),
                 child: Image.asset(
                   R.music_point,
@@ -191,7 +189,7 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
           Expanded(
               child: GestureDetector(
             child: Image.asset(
-              R.icon_white_more,
+              R.icon_white_previous,
               width: 70.w,
               height: 70.w,
             ),
@@ -202,9 +200,7 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
               ///控制播放暂停按钮
               child: GestureDetector(
             child: Image.asset(
-              controller.musicController.playingStatus.value
-                  ? R.icon_white_pause
-                  : R.icon_white_play,
+              controller.musicController.playingStatus.value ? R.icon_white_pause : R.icon_white_play,
               width: 90.w,
               height: 90.w,
             ),
@@ -223,7 +219,7 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
           Expanded(
               child: GestureDetector(
             child: Image.asset(
-              R.icon_white_more,
+              R.icon_white_next,
               width: 70.w,
               height: 70.w,
             ),
@@ -236,7 +232,9 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
               width: 70.w,
               height: 70.w,
             ),
-            onTap: () {},
+            onTap: () {
+              showPlayListDialog();
+            },
           )),
         ],
       ),
@@ -255,8 +253,7 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
             alignment: Alignment.center,
             width: 80.w,
             child: Text(
-              TimeUtils.durationTransform(
-                  controller.musicController.currentPosition.value),
+              TimeUtils.durationTransform(controller.musicController.currentPosition.value),
               style: TextStyle(fontSize: 26.sp, color: ColorStyle.color_white),
             ),
           ),
@@ -275,8 +272,7 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
             alignment: Alignment.center,
             width: 80.w,
             child: Text(
-              TimeUtils.durationTransform(
-                  controller.musicController.audioLenght.value),
+              TimeUtils.durationTransform(controller.musicController.audioLenght.value),
               style: TextStyle(fontSize: 26.sp, color: ColorStyle.color_white),
             ),
           ),
@@ -290,13 +286,15 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
 
   @override
   bool showTitleBar() => false;
+
+  void showPlayListDialog() {
+    Get.bottomSheet(PlayListDialog());
+  }
 }
 
-class MusicDetailController extends BaseController
-    with GetSingleTickerProviderStateMixin {
+class MusicDetailController extends BaseController with GetSingleTickerProviderStateMixin {
   var musicController = Get.find<MusicPlayerController>();
-  late AnimationController rotateController =
-      AnimationController(vsync: this, duration: const Duration(seconds: 10));
+  late AnimationController rotateController = AnimationController(vsync: this, duration: const Duration(seconds: 10));
 
   @override
   void loadNet() {}
@@ -338,5 +336,6 @@ class MusicDetailBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => MusicDetailController());
+    Get.lazyPut(() => DetailPlayListController(), fenix: true);
   }
 }

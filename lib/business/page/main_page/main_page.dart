@@ -151,7 +151,6 @@ class MainController extends BaseController with GetTickerProviderStateMixin {
   final List<Widget> pagerList = [
     const MinePage(),
     const NeteasePage(),
-    // const NeteasePage(),
   ];
   RxBool nightMode = false.obs;
   late var animateController =
@@ -179,8 +178,8 @@ class MainController extends BaseController with GetTickerProviderStateMixin {
 class MainBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => MainController());
-    Get.lazyPut(() => NeteaseController());
     Get.lazyPut(() => MineController());
+    Get.lazyPut(() => NeteaseController());
+    Get.lazyPut(() => MainController());
   }
 }

@@ -56,5 +56,9 @@
     <true/>
     <key>NSMicrophoneUsageDescription</key>
     <string>... explain why the app uses the microphone here ...</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

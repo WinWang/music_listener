@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:music/constant/api_constant.dart';
 import 'package:music/http/interceptor/netease_handler.dart';
@@ -39,9 +38,9 @@ class DioClient {
   DioClient._internal() {
     // BaseOptions、Options、RequestOptions 都可以配置参数，优先级别依次递增，且可以根据优先级别覆盖参数
     BaseOptions options = BaseOptions(
-      connectTimeout: CONNECT_TIMEOUT,
+      connectTimeout: const Duration(microseconds: CONNECT_TIMEOUT),
       // 响应流上前后两次接受到数据的间隔，单位为毫秒。
-      receiveTimeout: RECEIVE_TIMEOUT,
+      receiveTimeout: const Duration(microseconds: RECEIVE_TIMEOUT),
 
       // Http请求头.
       headers: {},
@@ -74,18 +73,18 @@ class DioClient {
         }));
 
     // 在调试模式下需要抓包调试，所以我们使用代理，并禁用HTTPS证书校验
-    if (ApiConstant.PROXY_ENABLE) {
-      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-          (client) {
-        client.findProxy = (uri) {
-          // return "PROXY $PROXY_IP:$PROXY_PORT";
-          return "proxy";
-        };
-        //代理工具会提供一个抓包的自签名证书，会通不过证书校验，所以我们禁用证书校验
-        client.badCertificateCallback =
-            (X509Certificate cert, String host, int port) => true;
-      };
-    }
+    // if (ApiConstant.PROXY_ENABLE) {
+    //   (dio.httpClientAdapter as HttpClientAdapter).onHttpClientCreate =
+    //       (client) {
+    //     client.findProxy = (uri) {
+    //       // return "PROXY $PROXY_IP:$PROXY_PORT";
+    //       return "proxy";
+    //     };
+    //     //代理工具会提供一个抓包的自签名证书，会通不过证书校验，所以我们禁用证书校验
+    //     client.badCertificateCallback =
+    //         (X509Certificate cert, String host, int port) => true;
+    //   };
+    // }
   }
 
   ///初始化公共属性
@@ -103,8 +102,8 @@ class DioClient {
   }) {
     dio.options = dio.options.copyWith(
       baseUrl: baseUrl,
-      connectTimeout: connectTimeout,
-      receiveTimeout: receiveTimeout,
+      connectTimeout: Duration(milliseconds: connectTimeout),
+      receiveTimeout: Duration(milliseconds: receiveTimeout),
       headers: headers ?? const {},
     );
     if (interceptors != null && interceptors.isNotEmpty) {

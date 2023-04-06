@@ -67,13 +67,6 @@ class RefreshWidget<Controller extends BaseRefreshController>
             enablePullUp: enablePullUp,
             onRefresh: () => controller.onLoadRefresh(),
             onLoading: () => controller.onLoadMore(),
-            // header: const ClassicHeader(
-            //   releaseText: "释放立即刷新",
-            //   refreshingText: "正在刷新...",
-            //   completeText: "刷新完成",
-            //   idleText: "下拉可以刷新",
-            //   textStyle: TextStyle(color: ColorStyle.color_000000),
-            // ),
             header: const MaterialClassicHeader(),
             footer: const ClassicFooter(
               loadingText: "正在加载中...",

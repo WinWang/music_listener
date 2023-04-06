@@ -1,7 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:music/business/page/netease_page/model/server_status_bean.dart';
 
-
 part 'bean.g.dart';
 
 @JsonSerializable()
@@ -170,7 +169,7 @@ class Song2 {
   int? pst;
   int? t;
 
-  List<Artists>? ar;
+  // List<Artists>? ar;
 
   double? pop;
   int? st;
@@ -206,6 +205,27 @@ class Song2 {
   factory Song2.fromJson(Map<String, dynamic> json) => _$Song2FromJson(json);
 
   Map<String, dynamic> toJson() => _$Song2ToJson(this);
+}
+
+@JsonSerializable()
+class MyRecord {
+  @JsonKey(fromJson: dynamicToString)
+  late String id;
+
+  String? picUrl;
+
+  String? name;
+
+  String? al_name;
+
+  String? time;
+
+  MyRecord();
+
+  factory MyRecord.fromJson(Map<String, dynamic> json) =>
+      _$MyRecordFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MyRecordToJson(this);
 }
 
 @JsonSerializable()
@@ -564,8 +584,6 @@ class Play {
   // 0: 自建?
   // 5: 我喜欢的音乐
   int? specialType;
-
-
 
   List<PlayTrack>? tracks;
   List<PlayTrackId>? trackIds;
@@ -999,7 +1017,6 @@ class ArtistDescWrap extends ServerStatusBean {
   String? briefDesc;
 
   int? count;
-
 
   ArtistDescWrap();
 
@@ -1458,7 +1475,6 @@ class VideoBase {
 
 @JsonSerializable()
 class Video extends VideoBase {
-
   Video();
 
   factory Video.fromJson(Map<String, dynamic> json) => _$VideoFromJson(json);
@@ -1468,7 +1484,6 @@ class Video extends VideoBase {
 
 @JsonSerializable()
 class Video2 extends VideoBase {
-
   Video2();
 
   factory Video2.fromJson(Map<String, dynamic> json) => _$Video2FromJson(json);

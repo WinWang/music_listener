@@ -183,9 +183,6 @@ Song2 _$Song2FromJson(Map<String, dynamic> json) => Song2()
   ..name = json['name'] as String?
   ..pst = json['pst'] as int?
   ..t = json['t'] as int?
-  ..ar = (json['ar'] as List<dynamic>?)
-      ?.map((e) => Artists.fromJson(e as Map<String, dynamic>))
-      .toList()
   ..pop = (json['pop'] as num?)?.toDouble()
   ..st = json['st'] as int?
   ..rt = json['rt'] as String?
@@ -223,7 +220,6 @@ Map<String, dynamic> _$Song2ToJson(Song2 instance) => <String, dynamic>{
       'name': instance.name,
       'pst': instance.pst,
       't': instance.t,
-      'ar': instance.ar,
       'pop': instance.pop,
       'st': instance.st,
       'rt': instance.rt,
@@ -245,6 +241,21 @@ Map<String, dynamic> _$Song2ToJson(Song2 instance) => <String, dynamic>{
       'reason': instance.reason,
       'audioUrl': instance.audioUrl,
       'privilege': instance.privilege,
+    };
+
+MyRecord _$MyRecordFromJson(Map<String, dynamic> json) => MyRecord()
+  ..id = dynamicToString(json['id'])
+  ..picUrl = json['picUrl'] as String?
+  ..name = json['name'] as String?
+  ..al_name = json['al_name'] as String?
+  ..time = json['time'] as String?;
+
+Map<String, dynamic> _$MyRecordToJson(MyRecord instance) => <String, dynamic>{
+      'id': instance.id,
+      'picUrl': instance.picUrl,
+      'name': instance.name,
+      'al_name': instance.al_name,
+      'time': instance.time,
     };
 
 SongDetailWrap _$SongDetailWrapFromJson(Map<String, dynamic> json) =>
