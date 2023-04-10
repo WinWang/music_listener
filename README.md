@@ -1,5 +1,5 @@
 # Flutter Music_Listener(flutter音乐播放器) Flutter version  3.9 <br>
-##项目介绍 <br>
+## 项目介绍 <br>
 1、项目整体基于getx+retrofit+dio+jsonserialize开发 <br>
 2、封装通用控制器BaseController，类似jetpack mvvm框架中的BaseViemodel <br>
 3、封装基础无状态基类BaseStatelessWidget，结合基于getx的BaseController的使用 <br>
