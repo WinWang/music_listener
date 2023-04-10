@@ -152,14 +152,14 @@ class PlayListController extends BaseController<ApiService> {
     myRecord.id = item.id;
     myRecord.audioUrl = item.audioUrl ?? "";
     myRecord.time = DateTime.now().millisecondsSinceEpoch.toString();
-    RecordDatabase.instance.create(myRecord);
+    await RecordDatabase.instance.create(myRecord);
     eventBus.fire(myRecord);
     //存储播放列表
     savePlayList();
   }
 
   Future<void> savePlayList() async {
-    PlayListDatabase.instance.clearDatabase();
+    await PlayListDatabase.instance.clearDatabase();
     for (var element in dataList) {
       var myRecord = MyRecord();
       myRecord.name = element.name ?? "";
@@ -168,7 +168,7 @@ class PlayListController extends BaseController<ApiService> {
       myRecord.audioUrl = element.audioUrl ?? "";
       myRecord.id = element.id;
       myRecord.time = DateTime.now().millisecondsSinceEpoch.toString();
-      PlayListDatabase.instance.create(myRecord);
+      await PlayListDatabase.instance.create(myRecord);
     }
   }
 
@@ -178,10 +178,10 @@ class PlayListController extends BaseController<ApiService> {
   }
 
   @override
-  void onClose() {
+  void onClose() async {
+    // await PlayListDatabase.instance.close();
+    // await RecordDatabase.instance.close();
     super.onClose();
-    // PlayListDatabase.instance.close();
-    // RecordDatabase.instance.close();
   }
 }
 

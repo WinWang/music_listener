@@ -6,7 +6,7 @@ const tableVersion = 1;
 const tableName = "my_record.db";
 
 const idType = 'TEXT PRIMARY KEY';
-const textType = 'TEXT NOT NULL';
+const textType = 'TEXT';
 const boolType = 'BOOLEAN NOT NULL';
 const integerType = 'INTEGER NOT NULL';
 

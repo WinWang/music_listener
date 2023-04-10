@@ -9,7 +9,7 @@ const tableVersion = 1;
 const String tableRecord = 'record';
 
 const idType = 'TEXT PRIMARY KEY';
-const textType = 'TEXT NOT NULL';
+const textType = 'TEXT';
 const boolType = 'BOOLEAN NOT NULL';
 const integerType = 'INTEGER NOT NULL';
 
