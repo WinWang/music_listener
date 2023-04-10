@@ -9,3 +9,9 @@
 7、针对getx框架的全局音乐播放器的封装 <br>
 8、flutter中数据库的使用 <br>
 9、基于steam的eventbus的使用 <br>
+
+<div style="display: flex; flex-direction: row">
+<img src="https://sm.ms/image/cDp5lJRPxXKiI8v.jpg" width="25%">
+<img src="https://s2.loli.net/2023/04/11/cPntXUlr5mTgZzw.jpg" width="25%">
+<img src="https://s2.loli.net/2023/04/11/9xKtByGVvg47UAR.jpg" width="25%">
+</div>
