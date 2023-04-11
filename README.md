@@ -11,6 +11,20 @@
 9、基于steam的eventbus的使用 <br>
 10、flutter项目全局换肤的使用 <br>
 
+<br>
+## 其他一些学习练手的项目
+**Flutter版本**开眼App链接(getx+retrofit+dio+jsonserialize+自定义控件demo)：https://github.com/WinWang/open_eye <br>
+
+**React版本**的开眼App链接(React18+React-Vant+Mobx+axios)：https://github.com/WinWang/react-oepn-eye <br>
+
+**Vue2版本**WanAndroid链接(Vue2+vuex+vant+axios)：https://github.com/WinWang/Vue-WanAndroid <br>
+
+**Vue3版本**WanAndroid链接(vue3+typeScript+pinia+vant+vite)：https://github.com/WinWang/Vue3-wanAndroid <br>
+
+<br>
+## Android版本App下载体验 <br>
+<img src="https://s2.loli.net/2023/04/11/nzdYC81UGI7MbH9.png" width="50%">
+
 ## 白天版 <br>
 <div style="display: flex; flex-direction: row">
 <img src="https://s2.loli.net/2023/04/11/cDp5lJRPxXKiI8v.jpg" width="30%">
