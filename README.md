@@ -12,7 +12,7 @@
 10、flutter项目全局换肤的使用 <br>
 
 <br>
-## 其他一些学习练手的项目
+## 其他一些学习练手的项目 <br>
 **Flutter版本**开眼App链接(getx+retrofit+dio+jsonserialize+自定义控件demo)：https://github.com/WinWang/open_eye <br>
 
 **React版本**的开眼App链接(React18+React-Vant+Mobx+axios)：https://github.com/WinWang/react-oepn-eye <br>
