@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:get/get.dart';
+import 'package:music/controller/theme_controller.dart';
 import 'package:music/ext/get_extension.dart';
 import 'package:music/http/app_except.dart';
 import 'package:music/http/result/base_result.dart';
@@ -17,6 +18,9 @@ abstract class BaseController<M> extends SuperController with ToastMixin {
   List<StreamSubscription>? _stremSubList;
   RxString barTitleString = "标题".obs;
 
+  ///换肤controller
+  var themeController = Get.find<ThemeController>();
+
   @override
   void onInit() {
     super.onInit();
@@ -27,10 +31,7 @@ abstract class BaseController<M> extends SuperController with ToastMixin {
 
   /// 发起网络请求，同时处理异常，loading
   httpRequest<T>(Future<T> future, FutureOr<dynamic> Function(T value) onValue,
-      {Function(Exception e)? error,
-      bool showLoading = false,
-      bool handleError = true,
-      bool handleSuccess = true}) {
+      {Function(Exception e)? error, bool showLoading = false, bool handleError = true, bool handleSuccess = true}) {
     if (showLoading) {
       Get.showLoading();
     }
@@ -63,8 +64,7 @@ abstract class BaseController<M> extends SuperController with ToastMixin {
   }
 
   ///多网络请求简单封装
-  multiHttpRequest(List<Future<dynamic>> futures,
-      FutureOr<dynamic> Function(dynamic value) onValue,
+  multiHttpRequest(List<Future<dynamic>> futures, FutureOr<dynamic> Function(dynamic value) onValue,
       {Function(Exception e)? error,
       bool showLoading = false,
       bool handleError = true,
@@ -91,8 +91,7 @@ abstract class BaseController<M> extends SuperController with ToastMixin {
   }
 
   ///大阳智投接口处理
-  void baseResultHandler<T>(t, bool handleSuccess,
-      FutureOr<dynamic> Function(T value) onValue, bool handleError) {
+  void baseResultHandler<T>(t, bool handleSuccess, FutureOr<dynamic> Function(T value) onValue, bool handleError) {
     if ("1" == t.resCode) {
       if (handleSuccess) {
         showSuccess();
@@ -112,8 +111,7 @@ abstract class BaseController<M> extends SuperController with ToastMixin {
   }
 
   /// WanAndroid接口处理
-  void baseWanResultHandler<T>(t, bool handleSuccess,
-      FutureOr<dynamic> Function(T value) onValue, bool handleError) {
+  void baseWanResultHandler<T>(t, bool handleSuccess, FutureOr<dynamic> Function(T value) onValue, bool handleError) {
     if (t.errorCode == 0) {
       if (handleSuccess) {
         showSuccess();

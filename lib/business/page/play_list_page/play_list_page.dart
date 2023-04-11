@@ -42,9 +42,14 @@ class PlayListPage extends BaseStatelessWidget<PlayListController> {
               width: double.infinity,
               fit: BoxFit.cover,
             ),
+            Container(
+              color: controller.themeController.isDarkMode.value ? ColorStyle.color_E2E3E8_33 : Colors.transparent,
+              width: double.infinity,
+              height: double.infinity,
+            ),
             BackdropFilter(
               // 过滤器
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
               //必须设置一个空容器
               child: Container(),
             ),

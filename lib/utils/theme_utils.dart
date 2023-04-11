@@ -3,23 +3,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:music/res/colors.dart';
 
 class Themes {
-  static final black = ThemeData.light().copyWith(
-      scaffoldBackgroundColor: Colors.black,
-      // appBarTheme: AppBarTheme(
-      //     backgroundColor: Colors.black,
-      //     textTheme: TextTheme(
-      //         headline6: TextStyle(color: Colors.white, fontSize: 30.sp))),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.brown))));
+  static final black = ThemeData.dark().copyWith(
+      scaffoldBackgroundColor: ColorStyle.color_333333,
+      elevatedButtonTheme:
+          ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.brown))),
+      tabBarTheme: TabBarTheme(
+        labelColor: ColorStyle.color_white,
+        labelStyle: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold),
+        unselectedLabelColor: ColorStyle.color_CCCCCC,
+        indicatorColor: ColorStyle.color_white,
+      ));
 
   static final red = ThemeData.light().copyWith(
-      scaffoldBackgroundColor: ColorStyle.color_EA4C43,
-      // appBarTheme: AppBarTheme(
-      //     backgroundColor: ColorStyle.color_EA4C43,
-      //     textTheme: TextTheme(
-      //         headline6: TextStyle(color: Colors.black, fontSize: 30.sp))),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.brown))));
+      scaffoldBackgroundColor: Colors.white,
+      elevatedButtonTheme:
+          ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.brown))),
+      tabBarTheme: TabBarTheme(
+        labelColor: ColorStyle.color_white,
+        labelStyle: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold),
+        unselectedLabelColor: ColorStyle.color_CCCCCC,
+        indicatorColor: ColorStyle.color_white,
+      ));
+
+
 }

@@ -25,7 +25,9 @@ class ItemPlayListWidget extends CommonStatelessWidget {
             itemData.name ?? "",
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
-            style: TextStyle(color: ColorStyle.color_666666, fontSize: 26.sp),
+            style: TextStyle(
+                color: themeController.isDarkMode.value ? ColorStyle.color_CCCCCC : ColorStyle.color_666666,
+                fontSize: 26.sp),
           )
         ],
       ),

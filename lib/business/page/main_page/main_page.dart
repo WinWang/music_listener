@@ -35,26 +35,25 @@ class MainPage extends BaseStatelessWidget<MainController> {
   /// 创建Tab
   Widget _createTabBar() {
     return Container(
-      child: TabBar(
-        tabs: controller.tabList
-            .map((element) => Tab(
-                  text: element,
-                ))
-            .toList(),
-        labelColor: ColorStyle.color_white,
-        labelStyle: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold),
-        unselectedLabelColor: ColorStyle.color_CCCCCC,
-        indicatorColor: ColorStyle.color_white,
-        isScrollable: false,
-        controller: controller.tabController,
-        indicatorWeight: 6.w,
-        indicatorPadding: EdgeInsets.symmetric(horizontal: 100.w),
-        onTap: (index) {
-          controller.pagerController.jumpToPage(index);
-        },
-      ),
-      color: ColorStyle.color_EA4C43,
-    );
+        child: TabBar(
+          tabs: controller.tabList
+              .map((element) => Tab(
+                    text: element,
+                  ))
+              .toList(),
+          labelColor: ColorStyle.color_white,
+          labelStyle: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold),
+          unselectedLabelColor: ColorStyle.color_CCCCCC,
+          indicatorColor: ColorStyle.color_white,
+          isScrollable: false,
+          controller: controller.tabController,
+          indicatorWeight: 6.w,
+          indicatorPadding: EdgeInsets.symmetric(horizontal: 100.w),
+          onTap: (index) {
+            controller.pagerController.jumpToPage(index);
+          },
+        ),
+        color: controller.themeController.isDarkMode.value ? ColorStyle.color_555555 : ColorStyle.color_EA4C43);
   }
 
   @override
@@ -92,7 +91,7 @@ class MainPage extends BaseStatelessWidget<MainController> {
   @override
   Widget createDrawer() {
     return Obx(() => Container(
-          color: ColorStyle.color_EA4C43,
+          color: controller.themeController.isDarkMode.value ? ColorStyle.color_555555 : ColorStyle.color_EA4C43,
           width: 400.w,
           padding: EdgeInsets.only(left: 32.w),
           child: Column(
@@ -109,13 +108,12 @@ class MainPage extends BaseStatelessWidget<MainController> {
                   ),
                   Text(
                     "夜间模式",
-                    style: TextStyle(
-                        fontSize: 32.sp, color: ColorStyle.color_white),
+                    style: TextStyle(fontSize: 32.sp, color: ColorStyle.color_white),
                   ),
                   Switch(
-                      value: controller.nightMode.value,
+                      value: controller.themeController.isDarkMode.value,
                       onChanged: (bool open) {
-                        controller.nightMode.value = open;
+                        controller.themeController.isDarkMode.value = open;
                         if (open) {
                           // controller.nightMode = false;
                           Get.changeTheme(Themes.black);
@@ -123,6 +121,7 @@ class MainPage extends BaseStatelessWidget<MainController> {
                           // controller.nightMode = true;
                           Get.changeTheme(Themes.red);
                         }
+                        Get.forceAppUpdate();
                       })
                 ],
               ),
@@ -145,16 +144,14 @@ class MainController extends BaseController with GetTickerProviderStateMixin {
   final List<String> tabList = ["我的", "网易"];
 
   // final List<String> tabList = ["网易"];
-  late TabController tabController =
-      TabController(length: tabList.length, vsync: this);
+  late TabController tabController = TabController(length: tabList.length, vsync: this);
   final PageController pagerController = PageController();
   final List<Widget> pagerList = [
     const MinePage(),
     const NeteasePage(),
   ];
-  RxBool nightMode = false.obs;
-  late var animateController =
-      AnimationController(vsync: this, duration: const Duration(seconds: 6));
+
+  late var animateController = AnimationController(vsync: this, duration: const Duration(seconds: 6));
 
   @override
   void onReady() {

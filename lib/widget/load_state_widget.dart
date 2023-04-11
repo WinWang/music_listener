@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:music/base/controller/base_controller.dart';
+import 'package:music/controller/theme_controller.dart';
 import 'package:music/res/colors.dart';
 import 'package:music/res/style.dart';
 
@@ -27,14 +28,12 @@ Widget createEmptyWidget(BaseController controller) {
               Box.hBox30,
               Text(
                 "暂无数据",
-                style:
-                    TextStyle(fontSize: 32.sp, color: ColorStyle.color_999999),
+                style: TextStyle(fontSize: 32.sp, color: ColorStyle.color_999999),
               ),
               Box.hBox20,
               Text(
                 "点我重试",
-                style:
-                    TextStyle(fontSize: 25.sp, color: ColorStyle.color_999999),
+                style: TextStyle(fontSize: 25.sp, color: ColorStyle.color_999999),
               )
             ],
           ),
@@ -43,13 +42,12 @@ Widget createEmptyWidget(BaseController controller) {
 }
 
 ///创建AppBar
-AppBar createAppBar(
-    String titleString, bool showBackButton, List<Widget>? actionWidget,
-    {Widget? titleWidget}) {
+AppBar createAppBar(String titleString, bool showBackButton, List<Widget>? actionWidget, {Widget? titleWidget}) {
+  var themeController = Get.find<ThemeController>();
   return AppBar(
     title: titleWidget ?? titleView(titleString),
     centerTitle: true,
-    backgroundColor: ColorStyle.color_EA4C43,
+    backgroundColor: themeController.isDarkMode.value ? ColorStyle.color_555555 : ColorStyle.color_EA4C43,
     iconTheme: const IconThemeData(color: ColorStyle.color_white),
     elevation: 0,
     systemOverlayStyle: systemOverLayoutStyle(),
@@ -115,14 +113,12 @@ Widget createErroWidget(BaseController controller, String? error) {
                 Box.wBox30,
                 Text(
                   error ?? "页面加载异常",
-                  style: TextStyle(
-                      fontSize: 32.sp, color: ColorStyle.color_999999),
+                  style: TextStyle(fontSize: 32.sp, color: ColorStyle.color_999999),
                 ),
                 Box.hBox20,
                 Text(
                   "点我重试",
-                  style: TextStyle(
-                      fontSize: 25.sp, color: ColorStyle.color_999999),
+                  style: TextStyle(fontSize: 25.sp, color: ColorStyle.color_999999),
                 )
               ],
             ),
@@ -149,14 +145,12 @@ Widget createCustomHoldreWidget(String? error, BaseController controller) {
                 Box.wBox30,
                 Text(
                   error ?? "页面加载异常",
-                  style: TextStyle(
-                      fontSize: 32.sp, color: ColorStyle.color_999999),
+                  style: TextStyle(fontSize: 32.sp, color: ColorStyle.color_999999),
                 ),
                 Box.hBox20,
                 Text(
                   "点我重试",
-                  style: TextStyle(
-                      fontSize: 25.sp, color: ColorStyle.color_999999),
+                  style: TextStyle(fontSize: 25.sp, color: ColorStyle.color_999999),
                 )
               ],
             ),

@@ -13,8 +13,7 @@ class ItemPlaySongListWidget extends CommonStatefulWidget {
   Song2 itemData;
   RxString playId;
 
-  ItemPlaySongListWidget(this.itemData, this.playId, {Key? key})
-      : super(key: key);
+  ItemPlaySongListWidget(this.itemData, this.playId, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -22,15 +21,13 @@ class ItemPlaySongListWidget extends CommonStatefulWidget {
   }
 }
 
-class ItemPlaySongListWidgetState extends State<ItemPlaySongListWidget>
-    with SingleTickerProviderStateMixin {
+class ItemPlaySongListWidgetState extends State<ItemPlaySongListWidget> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 6));
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 6));
     _controller.forward();
   }
 
@@ -86,9 +83,13 @@ class ItemPlaySongListWidgetState extends State<ItemPlaySongListWidget>
                   Text(
                     widget.itemData.name ?? "",
                     style: TextStyle(
-                        color: widget.itemData.id == widget.playId.value
-                            ? ColorStyle.color_EA4C43
-                            : ColorStyle.color_333333,
+                        color: widget.themeController.isDarkMode.value
+                            ? (widget.itemData.id == widget.playId.value
+                                ? ColorStyle.color_EA4C43
+                                : ColorStyle.color_CCCCCC)
+                            : (widget.itemData.id == widget.playId.value
+                                ? ColorStyle.color_EA4C43
+                                : ColorStyle.color_333333),
                         fontSize: 28.sp),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -97,9 +98,13 @@ class ItemPlaySongListWidgetState extends State<ItemPlaySongListWidget>
                   Text(
                     widget.itemData.al.name ?? "",
                     style: TextStyle(
-                        color: widget.itemData.id == widget.playId.value
-                            ? ColorStyle.color_EA4C43
-                            : ColorStyle.color_999999,
+                        color: widget.themeController.isDarkMode.value
+                            ? (widget.itemData.id == widget.playId.value
+                                ? ColorStyle.color_EA4C43
+                                : ColorStyle.color_777777)
+                            : (widget.itemData.id == widget.playId.value
+                                ? ColorStyle.color_EA4C43
+                                : ColorStyle.color_999999),
                         fontSize: 24.sp),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

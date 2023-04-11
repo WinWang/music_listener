@@ -9,7 +9,9 @@
 7、针对getx框架的全局音乐播放器的封装 <br>
 8、flutter中数据库的使用 <br>
 9、基于steam的eventbus的使用 <br>
+10、flutter项目全局换肤的使用 <br>
 
+## 白天版 <br>
 <div style="display: flex; flex-direction: row">
 <img src="https://s2.loli.net/2023/04/11/cDp5lJRPxXKiI8v.jpg" width="30%">
 <img src="https://s2.loli.net/2023/04/11/cPntXUlr5mTgZzw.jpg" width="30%">
@@ -26,4 +28,25 @@
 <div style="display: flex; flex-direction: row">
 <img src="https://s2.loli.net/2023/04/11/MwyEaU1G8Vgx9Ld.jpg" width="30%">
 <img src="https://s2.loli.net/2023/04/11/eCzQB2bH9nsT5vf.jpg" width="30%">
+</div>
+
+<br>
+<br>
+## 黑夜版 <br>
+<div style="display: flex; flex-direction: row">
+<img src="https://s2.loli.net/2023/04/11/LhgV6JGia1CfZnj.png" width="30%">
+<img src="https://s2.loli.net/2023/04/11/f1RXe6hlYS3zdPg.png" width="30%">
+<img src="https://s2.loli.net/2023/04/11/tcsJKd37NzwYFL8.png" width="30%">
+</div>
+
+<br>
+<div style="display: flex; flex-direction: row">
+<img src="https://s2.loli.net/2023/04/11/aSHdUnLo2ICuAlY.png" width="30%">
+<img src="https://s2.loli.net/2023/04/11/HldWLYijMD5fCaQ.png" width="30%">
+<img src="https://s2.loli.net/2023/04/11/TsjQfCeGEuLUP6Z.png" width="30%">
+</div>
+
+<br>
+<div style="display: flex; flex-direction: row">
+<img src="https://s2.loli.net/2023/04/11/DASFQVbxE8TLmYI.png" width="30%">
 </div>

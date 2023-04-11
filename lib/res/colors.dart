@@ -29,6 +29,7 @@ class ColorStyle {
   static const color_E2E3E8_33 = Color(0x33E2E3E8);
   static const color_E2E3E8_4D = Color(0x4DE2E3E8);
   static const color_E2E3E8_66 = Color(0x66E2E3E8);
+  static const color_3A3A3B_90 = Color(0xAB696868);
 
   static const colorShadow = Color(0x66E0E6FD);
   static const colorShadow2 = Color(0x41747575);

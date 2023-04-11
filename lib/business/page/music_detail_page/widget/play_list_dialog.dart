@@ -4,12 +4,16 @@ import 'package:get/get.dart';
 import 'package:music/base/component/base_component.dart';
 import 'package:music/base/controller/base_controller.dart';
 import 'package:music/business/component/music_component/music_player_component.dart';
+import 'package:music/controller/theme_controller.dart';
 import 'package:music/db/playlist_database.dart';
+import 'package:music/res/colors.dart';
 
 import '../../netease_page/model/bean.dart';
 import 'item_playing_list_widget.dart';
 
 class PlayListDialog extends BaseComponent<DetailPlayListController> {
+  var themeController = Get.find<ThemeController>();
+
   PlayListDialog({Key? key}) : super(key: key);
 
   @override
@@ -36,7 +40,7 @@ class PlayListDialog extends BaseComponent<DetailPlayListController> {
             GestureDetector(
               child: Container(
                 alignment: Alignment.center,
-                color: Colors.white,
+                color: themeController.isDarkMode.value ? ColorStyle.color_444444: Colors.white,
                 height: 100.w,
                 child: const Text("关闭", style: TextStyle()),
               ),

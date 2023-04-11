@@ -9,6 +9,7 @@ import 'package:music/base/controller/base_controller.dart';
 import 'package:music/business/page/netease_page/model/bean.dart';
 import 'package:music/business/service/music_servie.dart';
 import 'package:music/constant/common_constant.dart';
+import 'package:music/controller/theme_controller.dart';
 import 'package:music/http/apiservice/api_service.dart';
 import 'package:music/http/interceptor/netease_handler.dart';
 import 'package:music/res/colors.dart';
@@ -25,6 +26,8 @@ import 'package:music/widget/progress_paint.dart';
 class MusicPlayer extends BaseComponent<MusicPlayerController> {
   MusicPlayer({Key? key}) : super(key: key);
 
+  var themeController = Get.find<ThemeController>();
+
   @override
   Widget buildContent(BuildContext context) {
     return Obx(() => playContent(context));
@@ -33,7 +36,7 @@ class MusicPlayer extends BaseComponent<MusicPlayerController> {
   Widget playContent(BuildContext context) {
     return GestureDetector(
       child: AnimatedContainer(
-        color: ColorStyle.color_white,
+        color: themeController.isDarkMode.value ? ColorStyle.color_555555 : ColorStyle.color_white,
         height: controller.showMusicPlayer.value ? 120.w : 0,
         duration: const Duration(milliseconds: 150),
         child: Stack(
@@ -41,8 +44,7 @@ class MusicPlayer extends BaseComponent<MusicPlayerController> {
             Positioned(
               child: CustomPaint(
                 size: Size(630.w, 3.w),
-                painter: ProgressPaint(controller.currentPosition.value,
-                    controller.audioLenght.value),
+                painter: ProgressPaint(controller.currentPosition.value, controller.audioLenght.value),
               ),
               left: 120.w,
             ),
@@ -67,7 +69,7 @@ class MusicPlayer extends BaseComponent<MusicPlayerController> {
                           fontWeight: FontWeight.normal,
                           decoration: TextDecoration.none,
                           fontSize: 30.sp,
-                          color: ColorStyle.color_666666,
+                          color: themeController.isDarkMode.value ? ColorStyle.color_CCCCCC : ColorStyle.color_666666,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -79,7 +81,7 @@ class MusicPlayer extends BaseComponent<MusicPlayerController> {
                           fontWeight: FontWeight.normal,
                           decoration: TextDecoration.none,
                           fontSize: 25.sp,
-                          color: ColorStyle.color_666666,
+                          color: themeController.isDarkMode.value ? ColorStyle.color_CCCCCC : ColorStyle.color_666666,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -211,8 +213,7 @@ class MusicPlayerController extends BaseController<ApiService> {
 
   ///设置当前音频进度
   void setSeekPosition(double? seekPosition) {
-    musicService.audioPlayer
-        .seek(Duration(seconds: seekPosition?.toInt() ?? 0));
+    musicService.audioPlayer.seek(Duration(seconds: seekPosition?.toInt() ?? 0));
   }
 
   ///音乐播放逻辑
@@ -225,8 +226,7 @@ class MusicPlayerController extends BaseController<ApiService> {
   }
 
   ///设置当前音乐信息
-  Future setCurrentMusicInfo(String? title, String? artist, String? coverUrl,
-      String? audioUrl, String? audioTrackId,
+  Future setCurrentMusicInfo(String? title, String? artist, String? coverUrl, String? audioUrl, String? audioTrackId,
       {bool needSave = true, bool autoPlay = true}) async {
     //设置界面数据
     setMusicInfo(title, artist, coverUrl, audioTrackId, audioUrl);
@@ -250,8 +250,7 @@ class MusicPlayerController extends BaseController<ApiService> {
     }
   }
 
-  void setMusicInfo(String? title, String? artist, String? coverUrl,
-      String? audioTrackId, String? audioUrl) {
+  void setMusicInfo(String? title, String? artist, String? coverUrl, String? audioTrackId, String? audioUrl) {
     musicTitle.value = title ?? "";
     musicion.value = artist ?? "";
     playCoverUrl.value = coverUrl ?? "";
@@ -267,16 +266,14 @@ class MusicPlayerController extends BaseController<ApiService> {
     var playId = SPUtils.instance.getString(KeyConstant.keyMusicID);
     var musicUrl = SPUtils.instance.getString(KeyConstant.keyMusicUrl);
     LogD("初始化音频链接>>>>>>>>>$musicUrl");
-    setCurrentMusicInfo(title, artist, coverUrl, musicUrl, playId,
-        needSave: false, autoPlay: false);
+    setCurrentMusicInfo(title, artist, coverUrl, musicUrl, playId, needSave: false, autoPlay: false);
   }
 
   ///获取音乐的播放链接
   void getSongUrl() {
     LogWTF("网络更新播放链接1>>>>>>>>>$musicUrl");
     if (playId.isNotEmpty) {
-      httpRequest<SongUrlListWrap>(
-          api.getSongUrlV1("[$playId]", options: joinOptions()), (value) {
+      httpRequest<SongUrlListWrap>(api.getSongUrlV1("[$playId]", options: joinOptions()), (value) {
         musicUrl = value.data?[0].url ?? "";
         setMusicUrl(musicUrl);
         LogWTF("网络更新播放链接2>>>>>>>>>$musicUrl");

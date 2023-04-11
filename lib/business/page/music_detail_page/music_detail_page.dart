@@ -30,7 +30,7 @@ class MusicDetailPage extends BaseStatelessWidget<MusicDetailController> {
               fit: BoxFit.fill,
             ),
             Container(
-              color: ColorStyle.color_E2E3E8_66,
+              color: controller.themeController.isDarkMode.value ? ColorStyle.color_3A3A3B_90 : ColorStyle.color_E2E3E8_66,
               width: double.infinity,
               height: double.infinity,
             ),

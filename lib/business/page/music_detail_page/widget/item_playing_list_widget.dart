@@ -77,9 +77,13 @@ class ItemPlayingListWidgetState extends State<ItemPlayingListWidget> with Singl
                   Text(
                     widget.itemData.name ?? "",
                     style: TextStyle(
-                        color: widget.itemData.id == widget.playId.value
-                            ? ColorStyle.color_EA4C43
-                            : ColorStyle.color_333333,
+                        color: widget.themeController.isDarkMode.value
+                            ? (widget.itemData.id == widget.playId.value
+                                ? ColorStyle.color_EA4C43
+                                : ColorStyle.color_CCCCCC)
+                            : (widget.itemData.id == widget.playId.value
+                                ? ColorStyle.color_EA4C43
+                                : ColorStyle.color_333333),
                         fontSize: 28.sp),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -88,9 +92,13 @@ class ItemPlayingListWidgetState extends State<ItemPlayingListWidget> with Singl
                   Text(
                     widget.itemData.al_name ?? "",
                     style: TextStyle(
-                        color: widget.itemData.id == widget.playId.value
-                            ? ColorStyle.color_EA4C43
-                            : ColorStyle.color_999999,
+                        color: widget.themeController.isDarkMode.value
+                            ? (widget.itemData.id == widget.playId.value
+                                ? ColorStyle.color_EA4C43
+                                : ColorStyle.color_999999)
+                            : (widget.itemData.id == widget.playId.value
+                                ? ColorStyle.color_EA4C43
+                                : ColorStyle.color_999999),
                         fontSize: 24.sp),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
